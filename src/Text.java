@@ -7,8 +7,7 @@ public class Text {
 		try {
 			if (System.getProperty("os.name").startsWith("Windows")) {
 				// Windows
-				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-				Runtime.getRuntime().exec("cls");
+				Text.run("cls");
 			}
 			else {
 				// Unix based system
@@ -18,11 +17,8 @@ public class Text {
 				System.out.flush();
 			}
 		}
-		catch (IOException e) {
+		catch (Exception e) {
 			// Do nothing
-		}
-		catch (InterruptedException e2) {
-			Text.pokePrint("Process terminated");
 		}
 	}
 
@@ -36,15 +32,13 @@ public class Text {
 			}
 
 		}
-		catch (IOException e) {
+		catch (Exception e) {
 			// Do nothing
-		}
-		catch (InterruptedException e2) {
-			Text.pokePrint("Process terminated");
 		}
 	}
 
 	public static void sleep(int milliseconds) {
+		/*Pause the program for time and catch any errors*/
 		try {
 			Thread.sleep(milliseconds);
 		}
@@ -57,21 +51,19 @@ public class Text {
 		/*Side scroll text display like in pokemon*/
 		for (char c : str.toCharArray()) {
 			System.out.print(c);
-			sleep(10);
+			Text.sleep(20);
 		}
-		sleep(100);
 
-		System.out.print("\n");
+		System.out.print("\n");  // Move text object to next line
 	}
 
 	public static void quickPokePrint(String str) {
 		/*Faster print for large string*/
 		for (char c : str.toCharArray()) {
 			System.out.print(c);
-			sleep(1);
+			Text.sleep(1);  // Allows for smoother printing without taking much time
 		}
-		sleep(100);
 
-		System.out.print("\n");
+		System.out.print("\n");  // Move text object to next line
 	}
 }

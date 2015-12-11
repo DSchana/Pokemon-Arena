@@ -4,11 +4,17 @@ import java.io.*;
 import java.util.*;
 
 public enum Special {
-	/* Constants for special attacks */
-	STUN, WILDCARD, WILDSTORM, DISABLE, RECHARGE, NONE;
+	// Special constants
+	STUN,
+	WILDCARD,
+	WILDSTORM,
+	DISABLE,
+	RECHARGE,
+	NONE;
 
 	public static Special toSpec(String name) {
-		name = name.replace(" ", "");  // For 2 word specials
+		/*Convert String value to Special type*/
+		name = name.replace(" ", "");
 
 		if (name.equals("")) {
 			return Special.NONE;

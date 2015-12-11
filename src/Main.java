@@ -31,7 +31,10 @@ public class Main {
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
+		/*-------- Setup shutdown procedure --------------*/
+		Main runtimeCheck = new Main();
+		runtimeCheck.attachShutDownHook();
 
 		/*------------------ Cool Intro ---------------------*/
 		Text.clear();
@@ -52,7 +55,7 @@ public class Main {
 		Text.pokePrint("Choose four Pokemon by number\n");
 		while (user_poke.size() < 4) {
 			Text.pokePrint("Choose a Pokemon:\n");
-			Text.pokePrint(prof.toString());
+			Text.quickPokePrint(prof.toString());
 			try {
 				choice = prof.choose(stdin.nextInt()-1);
 			}
@@ -95,29 +98,43 @@ public class Main {
 		Text.pokePrint("\nPress the enter key to battle...");
 		stdin.nextLine();
 
-		/*------------- Battle -------------------*/
-		choice = null;
-		rocket = prof.randomPokemon();
+		/*------------- Battle Setup -------------------*/
+		while (!prof.areAllOut(user_poke) && !prof.areAllOut(prof.getPokedex())) {
+			choice = null;
+			rocket = prof.randomPokemon();
 
-		Text.pokePrint("Your opponent is:\n\n");
-		rocket.displayStats();
+			Text.pokePrint("Your opponent is:\n\n");
+			rocket.displayStats();
 
-		while (choice == null) {
-			Text.pokePrint("Choose your Pokemon:\n");
-			showPokemon();
-			userInt = stdin.nextInt()-1;
-			if (userInt < 4 && !user_poke.get(userInt).isOut()) {
-				choice = user_poke.get(userInt);
+			while (choice == null) {
+				Text.pokePrint("Choose your Pokemon:\n");
+				showPokemon();
+				userInt = stdin.nextInt()-1;
+				if (userInt < 4 && !user_poke.get(userInt).isOut()) {
+					choice = user_poke.get(userInt);
+				}
+				else {
+					Text.pokePrint("Invalid choice, try again");
+					Text.sleep(1000);
+				}
 			}
-			else {
-				Text.pokePrint("Invalid choice, try again");
-				Text.sleep(1000);
-			}
+			Text.clear();
+			Text.pokePrint(choice.getName() + ", I choose you!");
 		}
-		Text.clear();
-		Text.pokePrint(choice.getName() + ", I choose you!");
 
 		/* ------------ Clean Up -----------------*/
 		Text.run("color F");  // Reset cmd color to white
+
+		System.exit(0);
 	}
+
+	public void attachShutDownHook(){
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+	    		Text.pokePrint("Pokemon Arena is cleaning up and shutting down...");
+	    		Text.run("color F");
+	   		}
+	  	});
+	 }
 }

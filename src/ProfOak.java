@@ -59,6 +59,21 @@ public class ProfOak {
 		return pokedex.get(rnd_poke.nextInt(this.pokedex.size()));
 	}
 
+	public boolean areAllOut(ArrayList<Pokemon> pokemon) {
+		/* check if group of pokemon are KOed */
+		for (Pokemon poke : pokemon) {
+			if (!poke.isOut()) {
+				return false;
+			}
+		}
+		return true;
+
+	}
+
+	public ArrayList<Pokemon> getPokedex() {
+		return this.pokedex;
+	}
+
 	public String toString() {
 		String ret = "";
 
