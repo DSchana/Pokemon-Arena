@@ -47,8 +47,8 @@ public class Main {
 		Text.clear();
 		// End cool intro
 
-		Text.pokePrint("Welcome to Pokemon arena \nHere you will fight with Pokemon");
-		Text.sleep(2000);
+		Text.pokePrint("Welcome to Pokemon arena \nHere you will fight with Pokemon!\n\nEnter to continue...");
+		stdin.nextLine();
 		Text.clear();
 
 		/*--------- Player chooses Pokemon ------------*/
@@ -103,15 +103,38 @@ public class Main {
 			choice = null;
 			rocket = prof.randomPokemon();
 
-			Text.pokePrint("Your opponent is:\n\n");
+			Text.pokePrint("Team rocket chooses:\n\n");
 			rocket.displayStats();
 
 			while (choice == null) {
-				Text.pokePrint("Choose your Pokemon:\n");
+				Text.pokePrint("Choose your Pokemon (stat # for Pokemon statistics):\n");
 				showPokemon();
-				userInt = stdin.nextInt()-1;
+
+				userIn = stdin.nextLine();
+				try {
+					userInt = Integer.parseInt(userIn) - 1;
+				}
+				catch (NumberFormatException e) {
+					if (userIn.contains("stat ") && userIn.length() == 6) {
+						userInt = Character.getNumericValue(userIn.charAt(5)) + 3;
+					}
+					else {
+						userInt = Integer.MAX_VALUE;
+						// The error message will be displayed in the if statement
+					}
+				}
+
+				Text.clear();
+
 				if (userInt < 4 && !user_poke.get(userInt).isOut()) {
 					choice = user_poke.get(userInt);
+				}
+				else if (userInt >= 4 && userInt < 8) {
+					Text.pokePrint(rocket.getName() + ":\n");
+					rocket.writeStats();
+
+					Text.pokePrint("\n" +  user_poke.get(userInt-4).getName() + ":\n");
+					user_poke.get(userInt-4).writeStats();
 				}
 				else {
 					Text.pokePrint("Invalid choice, try again");

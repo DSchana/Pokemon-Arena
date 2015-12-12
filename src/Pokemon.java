@@ -24,20 +24,26 @@ public class Pokemon {
 	}
 
 	public void displayStats() {
+		/*Write stats of Pokemon and draw ASCII picture of Pokemon*/
 		GraphicsManager.drawASCII(this.name);
-		Text.quickPokePrint("Name: " + this.name + "\n" +
-							"HP: " + this.hp + "\n" +
-							"Type: " + this.type + "\n" +
-							"Resistance: " + this.resistance + "\n" +
-							"Weakness: " + this.weakness + "\n" +
-							"Attacks: " + "\n");
-		for (Attack atk : this.attacks) {
-			Text.quickPokePrint("\tName: " + atk.getName() + "\n" +
-								"\tEnergy Cost: " + atk.getEnergy() + "\n" +
-								"\tDamage: " + atk.getDamage() + "\n" +
-								"\tSpecial: " + atk.getSpecial() + "\n");
-		}
+		this.writeStats();
 	}
+
+	public void writeStats() {
+                /*Display pokemon stats without ASCII art*/
+                Text.quickPokePrint("Name: " + this.name + "\n" +
+                                                        "HP: " + this.hp + "\n" +
+                                                        "Type: " + this.type + "\n" +
+                                                        "Resistance: " + this.resistance + "\n" +
+                                                        "Weakness: " + this.weakness + "\n" +
+                                                        "Attacks: " + "\n");
+                for (Attack atk : this.attacks) {
+                        Text.quickPokePrint("\tName: " + atk.getName() + "\n" +
+                                                                "\tEnergy Cost: " + atk.getEnergy() + "\n" +
+                                                                "\tDamage: " + atk.getDamage() + "\n" +
+                                                                "\tSpecial: " + atk.getSpecial() + "\n");
+                }
+        }
 
 	public void rechargeEnergy(int energy) {
 		this.energy += energy;

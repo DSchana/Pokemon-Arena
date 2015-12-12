@@ -10,10 +10,8 @@ public class Text {
 				Text.run("cls");
 			}
 			else {
-				// Unix based system
-				final String ANSI_CLS = "\u001b[2j";
-				final String ANSI_HOME = "\u001b[H";
-				System.out.print(ANSI_CLS + ANSI_HOME);
+				// Unix
+				System.out.print("\033[H\033[2J");
 				System.out.flush();
 			}
 		}
@@ -51,7 +49,7 @@ public class Text {
 		/*Side scroll text display like in pokemon*/
 		for (char c : str.toCharArray()) {
 			System.out.print(c);
-			Text.sleep(20);
+			Text.sleep(15);
 		}
 
 		System.out.print("\n");  // Move text object to next line
