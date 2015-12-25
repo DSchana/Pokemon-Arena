@@ -4,6 +4,8 @@ import java.util.*;
 
 public class Pokemon {
 	private boolean koed;
+	private boolean isStunned;
+	private boolean wasDisabled;
 	private String name;
 	private Type type;
 	private Type resistance;
@@ -14,6 +16,8 @@ public class Pokemon {
 
 	public Pokemon(String name, int hp, String type, String resistance, String weakness, ArrayList<Attack> attacks) {
 		this.koed = false;
+		this.isStunned = false;
+		this.wasDisabled = false;
 		this.name = name;
 		this.hp = hp;
 		this.resistance = Type.toType(resistance);
@@ -30,33 +34,109 @@ public class Pokemon {
 	}
 
 	public void writeStats() {
-                /*Display pokemon stats without ASCII art*/
-                Text.quickPokePrint("Name: " + this.name + "\n" +
-                                                        "HP: " + this.hp + "\n" +
-                                                        "Type: " + this.type + "\n" +
-                                                        "Resistance: " + this.resistance + "\n" +
-                                                        "Weakness: " + this.weakness + "\n" +
-                                                        "Attacks: " + "\n");
-                for (Attack atk : this.attacks) {
-                        Text.quickPokePrint("\tName: " + atk.getName() + "\n" +
-                                                                "\tEnergy Cost: " + atk.getEnergy() + "\n" +
-                                                                "\tDamage: " + atk.getDamage() + "\n" +
-                                                                "\tSpecial: " + atk.getSpecial() + "\n");
-                }
+        /*Display pokemon stats without ASCII art*/
+        Text.quickPokePrint("Name: " + this.name + "\n" +
+                            "HP: " + this.hp + "\n" +
+                            "Type: " + this.type + "\n" +
+                            "Resistance: " + this.resistance + "\n" +
+                            "Weakness: " + this.weakness + "\n" +
+                            "Attacks: " + "\n");
+        for (Attack atk : this.attacks) {
+            Text.quickPokePrint("\tName: " + atk.getName() + "\n" +
+                                "\tEnergy Cost: " + atk.getEnergy() + "\n" +
+                                "\tDamage: " + atk.getDamage() + "\n" +
+                                "\tSpecial: " + atk.getSpecial() + "\n");
         }
+	}
+
+	public void displayEssentials() {
+		Text.quickPokePrint("Name: " + this.name + "\n" +
+                            "HP: " + this.hp + "\n" +
+                            "Energy: " + this.energy + "\n");
+	}
+
+	public void displayAttacks() {
+		for (int i = 0; i < this.attacks.size(); i++) {
+			// TODO: only display doable attacks
+			if (this.canDo(this.attacks.get(i))) {
+	            Text.quickPokePrint("\t" + (i+1) + ".\n" +
+	            					"\tName: " + this.attacks.get(i).getName() + "\n" +
+	                                "\tEnergy Cost: " + this.attacks.get(i).getEnergy() + "\n" +
+	                                "\tDamage: " + this.attacks.get(i).getDamage() + "\n" +
+	                                "\tSpecial: " + this.attacks.get(i).getSpecial() + "\n");
+        	}
+        }
+	}
+
+	public int attack(int attackNum, Pokemon target) {
+		if (this.canDo(this.attacks.get(attackNum))) {
+			this.attacks.get(attackNum).execute(target, this);
+			return 1;  // Attack was successful
+		}
+		else {
+			return -1;  // Not enough energy for the attack
+		}
+	}
+
+	public boolean canDo(Attack attack) {
+		return this.energy >= attack.getEnergy();
+	}
+
+	/*------- Set Methods -----------*/
+	public void resetTurn() {
+		this.isStunned = false;
+		this.rechargeEnergy(10);
+	}
 
 	public void rechargeEnergy(int energy) {
 		this.energy += energy;
 		if (this.energy > 50) {
 			this.energy = 50;
 		}
+		else if (this.energy < 0) {
+			this.energy = 0;
+		}
 	}
 
+	public void takeDamage(int damage) {
+		this.hp -= damage;
+		if (this.hp <= 0) {
+			this.hp = 0;
+			this.koed = true;
+		}
+	}
+
+	public void stun() {
+		this.isStunned = true;
+	}
+
+	public void disable() {
+		if (!this.wasDisabled) {
+			for (Attack atk : this.attacks) {
+				atk.reducedDamage(10);
+			}
+			this.wasDisabled = true;
+		}
+	}
+
+	/*------- Get Methods -----------*/
 	public boolean isOut() {
 		return this.koed;
 	}
 
 	public String getName() {
 		return this.name;
+	}
+
+	public int getNumAttacks() {
+		return this.attacks.size();
+	}
+
+	public String getAttackName(int atkNum) {
+		return this.attacks.get(atkNum).getName();
+	}
+
+	public boolean getStun() {
+		return this.isStunned;
 	}
 }

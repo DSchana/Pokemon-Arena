@@ -16,6 +16,50 @@ public class Main {
 	static int userInt;  // Hold all of the user's integers for analysis
 	/*----------------------------*/
 
+	public static void chooseBattlePokemon() {
+		choice = null;
+		while (choice == null) {
+			Text.pokePrint("Choose your Pokemon (stat # for Pokemon statistics):\n");
+			showPokemon();
+
+			userIn = stdin.nextLine();
+			try {
+				userInt = Integer.parseInt(userIn) - 1;
+			}
+			catch (NumberFormatException e) {
+				if (userIn.contains("stat ") && userIn.length() == 6) {
+					userInt = Character.getNumericValue(userIn.charAt(5)) + 3;
+				}
+				else {
+					userInt = Integer.MAX_VALUE;
+					// The error message will be displayed in the if statement
+				}
+			}
+
+			Text.clear();
+
+			if (userInt < 4 && !user_poke.get(userInt).isOut()) {
+				choice = user_poke.get(userInt);
+			}
+			else if (userInt >= 4 && userInt < 8) {
+				Text.pokePrint(rocket.getName() + ":\n");
+				rocket.writeStats();
+
+				Text.pokePrint("\n" +  user_poke.get(userInt-4).getName() + ":\n");
+				user_poke.get(userInt-4).writeStats();
+			}
+			else {
+				Text.pokePrint("Invalid choice, try again");
+				Text.sleep(1000);
+			}
+		}
+
+		Text.clear();
+		Text.pokePrint(choice.getName() + ", I choose you!");
+		Text.sleep(3000);
+		Text.clear();
+	}
+
 	public static void showPokemon() {
 		/* Display pokemon the user has selected and whether they are able to fight */
 
@@ -80,9 +124,6 @@ public class Main {
 					prof.remove(choice);
 					Text.sleep(1000);  // Give user time to read
 				}
-				else {
-					// Do nothing
-				}
 			}
 			else {
 				// Is not valid
@@ -100,49 +141,18 @@ public class Main {
 
 		/*------------- Battle Setup -------------------*/
 		while (!prof.areAllOut(user_poke) && !prof.areAllOut(prof.getPokedex())) {
+			Text.clear();
 			choice = null;
 			rocket = prof.randomPokemon();
 
 			Text.pokePrint("Team rocket chooses:\n\n");
 			rocket.displayStats();
 
-			while (choice == null) {
-				Text.pokePrint("Choose your Pokemon (stat # for Pokemon statistics):\n");
-				showPokemon();
+			chooseBattlePokemon();
 
-				userIn = stdin.nextLine();
-				try {
-					userInt = Integer.parseInt(userIn) - 1;
-				}
-				catch (NumberFormatException e) {
-					if (userIn.contains("stat ") && userIn.length() == 6) {
-						userInt = Character.getNumericValue(userIn.charAt(5)) + 3;
-					}
-					else {
-						userInt = Integer.MAX_VALUE;
-						// The error message will be displayed in the if statement
-					}
-				}
-
-				Text.clear();
-
-				if (userInt < 4 && !user_poke.get(userInt).isOut()) {
-					choice = user_poke.get(userInt);
-				}
-				else if (userInt >= 4 && userInt < 8) {
-					Text.pokePrint(rocket.getName() + ":\n");
-					rocket.writeStats();
-
-					Text.pokePrint("\n" +  user_poke.get(userInt-4).getName() + ":\n");
-					user_poke.get(userInt-4).writeStats();
-				}
-				else {
-					Text.pokePrint("Invalid choice, try again");
-					Text.sleep(1000);
-				}
+			while (!choice.isOut() && !rocket.isOut()) {
+				Battle.execute(choice, rocket);
 			}
-			Text.clear();
-			Text.pokePrint(choice.getName() + ", I choose you!");
 		}
 
 		/* ------------ Clean Up -----------------*/

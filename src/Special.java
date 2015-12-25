@@ -23,4 +23,8 @@ public enum Special {
 			return Special.valueOf(name.toUpperCase());
 		}
 	}
+
+	public static String toString(Special name) {
+		return "" + name;
+	}
 }
