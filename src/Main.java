@@ -156,8 +156,6 @@ public class Main {
 		}
 
 		/* ------------ Clean Up -----------------*/
-		Text.run("color F");  // Reset cmd color to white
-
 		System.exit(0);
 	}
 
@@ -167,6 +165,7 @@ public class Main {
 			public void run() {
 	    		Text.pokePrint("Pokemon Arena is cleaning up and shutting down...");
 	    		Text.run("color F");
+	    		Text.clear();
 	   		}
 	  	});
 	 }

@@ -28,13 +28,13 @@ public class Pokemon {
 	}
 
 	public void displayStats() {
-		/*Write stats of Pokemon and draw ASCII picture of Pokemon*/
+		/* Write stats of Pokemon and draw ASCII picture of Pokemon */
 		GraphicsManager.drawASCII(this.name);
 		this.writeStats();
 	}
 
 	public void writeStats() {
-        /*Display pokemon stats without ASCII art*/
+        /* Display pokemon stats without ASCII art */
         Text.quickPokePrint("Name: " + this.name + "\n" +
                             "HP: " + this.hp + "\n" +
                             "Type: " + this.type + "\n" +
@@ -57,14 +57,11 @@ public class Pokemon {
 
 	public void displayAttacks() {
 		for (int i = 0; i < this.attacks.size(); i++) {
-			// TODO: only display doable attacks
-			if (this.canDo(this.attacks.get(i))) {
-	            Text.quickPokePrint("\t" + (i+1) + ".\n" +
-	            					"\tName: " + this.attacks.get(i).getName() + "\n" +
-	                                "\tEnergy Cost: " + this.attacks.get(i).getEnergy() + "\n" +
-	                                "\tDamage: " + this.attacks.get(i).getDamage() + "\n" +
-	                                "\tSpecial: " + this.attacks.get(i).getSpecial() + "\n");
-        	}
+            Text.quickPokePrint("\t" + (i+1) + ".\n" +
+            					"\tName: " + this.attacks.get(i).getName() + "\n" +
+                                "\tEnergy Cost: " + this.attacks.get(i).getEnergy() + "\n" +
+                                "\tDamage: " + this.attacks.get(i).getDamage() + "\n" +
+                                "\tSpecial: " + this.attacks.get(i).getSpecial() + "\n");
         }
 	}
 
@@ -138,5 +135,15 @@ public class Pokemon {
 
 	public boolean getStun() {
 		return this.isStunned;
+	}
+
+	public boolean hasValidAttacks() {
+		/* Returns true if Pokemon has at least one valid attack */
+		for (Attack atk : attacks) {
+			if (this.canDo(atk)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

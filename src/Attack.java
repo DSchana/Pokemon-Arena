@@ -20,15 +20,16 @@ public class Attack {
 		/* Perform attack on target Pokemon */
 		String copmare = Special.toString(this.special);  // String of enum to compare
 
-		if (this.special.equals(Special.toString(Special.NONE))) {
+		// TODO: Change all the conditions from .equals to ==
+		if (this.special == Special.NONE) {
 			target.takeDamage(this.damage);
 		}
 
-		if (this.special.equals(Special.toString(Special.STUN)) && this.atkRnd.nextInt(9) % 2 == 0) {  // 50% chance of STUN happening
+		if (this.special == Special.STUN && this.atkRnd.nextInt(9) % 2 == 0) {  // 50% chance of STUN happening
 			target.stun();
 		}
 
-		if (this.special.equals(Special.toString(Special.WILDCARD))) {
+		if (this.special == Special.WILDCARD) {
 			if (this.atkRnd.nextInt(9) % 2 == 0) {
 				target.takeDamage(this.damage);
 			}
@@ -37,7 +38,7 @@ public class Attack {
 			}
 		}
 
-		if (this.special.equals(Special.toString(Special.WILDSTORM))) {
+		if (this.special == Special.WILDSTORM) {
 			if (this.atkRnd.nextInt(9) % 2 == 0) {
 				target.takeDamage(this.damage);
 				this.execute(target, self);
@@ -47,11 +48,11 @@ public class Attack {
 			}
 		}
 
-		if (this.special.equals(Special.toString(Special.DISABLE))) {
+		if (this.special == Special.DISABLE) {
 			target.disable();
 		}
 
-		if (this.special.equals(Special.toString(Special.RECHARGE))) {
+		if (this.special == Special.RECHARGE) {
 			self.rechargeEnergy(20);
 		}
 
@@ -61,6 +62,7 @@ public class Attack {
 
 	/*-------- set Methods --------*/
 	public void reducedDamage(int reduction) {
+		/* Reduce damage delt by attack when disabled */
 		this.damage -= reduction;
 		if (this.damage < 0) {
 			this.damage = 0;
