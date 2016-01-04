@@ -43,7 +43,7 @@ public class ProfOak {
 	}
 
 	public void remove(int pos) {
-		remove(pokedex.get(pos));
+		this.remove(pokedex.get(pos));
 	}
 
 	public void remove(Pokemon poke) {

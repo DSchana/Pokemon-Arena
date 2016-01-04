@@ -125,6 +125,18 @@ public class Pokemon {
 		return this.name;
 	}
 
+	public Type getType() {
+		return this.type;
+	}
+
+	public Type getResistance() {
+		return this.resistance;
+	}
+
+	public Type getWeakness() {
+		return this.weakness;
+	}
+
 	public int getNumAttacks() {
 		return this.attacks.size();
 	}
@@ -135,6 +147,10 @@ public class Pokemon {
 
 	public boolean getStun() {
 		return this.isStunned;
+	}
+
+	public boolean getDisabled() {
+		return this.wasDisabled;
 	}
 
 	public boolean hasValidAttacks() {

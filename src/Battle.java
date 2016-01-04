@@ -7,8 +7,8 @@ public class Battle {
 	private static Random rnd = new Random();
 	private static Scanner batin = new Scanner(System.in);
 
-	private static boolean PLAYER = true;
-	private static boolean ENEMY = false;
+	private static final boolean PLAYER = true;
+	private static final boolean ENEMY = false;
 
 	// attacked variables are true if both Pokemon have completed their attack phases and is used to determine when to reset variables like isStunned
 	private static boolean playerAttacked = false;
@@ -48,7 +48,15 @@ public class Battle {
 
 	public static void execute(Pokemon player, Pokemon enemy) {
 		// Player attack phase
-		while (Battle.turn == Battle.PLAYER) {
+		while (Battle.turn == Battle.PLAYER && !player.isOut() && !enemy.isOut()) {
+			if (player.getStun()) {
+				Text.pokePrint(player.getName() + " is stunned!");
+				Text.sleep(3000);
+				Battle.turn = Battle.ENEMY;
+				Battle.playerAttacked = true;
+				Battle.choice = -1;
+				break;
+			}
 			Battle.choose();
 			if (Battle.choice == 1) {
 				// Attack
@@ -114,11 +122,16 @@ public class Battle {
 		}
 
 		// Enemy attack phase
-		if (Battle.turn == Battle.ENEMY) {
+		if (Battle.turn == Battle.ENEMY && !player.isOut() && !enemy.isOut()) {
 			int attackNum, attackSuccess = -1;
-			while (attackSuccess == -1 && !enemy.getStun()) {
+			while (attackSuccess == -1) {
 				Text.clear();
-				if (!enemy.hasValidAttacks()) {
+				if (enemy.getStun()) {
+					Text.pokePrint(enemy.getName() + " is stunned!");
+					Text.sleep(3000);
+					break;
+				}
+				else if (!enemy.hasValidAttacks()) {  // Pass
 					Text.pokePrint(enemy.getName() + " did nothing!");
 					Text.sleep(3000);
 					break;
@@ -136,7 +149,7 @@ public class Battle {
 		}
 
 		if (Battle.playerAttacked && Battle.enemyAttacked) {
-			player.resetTurn();
+			Main.resetTurns();
 			enemy.resetTurn();
 
 			Battle.playerAttacked = false;

@@ -75,6 +75,12 @@ public class Main {
 		}
 	}
 
+	public static void resetTurns() {
+		for (Pokemon poke : user_poke) {
+			poke.resetTurn();
+		}
+	}
+
 	public static void main(String[] args) {
 		/*-------- Setup shutdown procedure --------------*/
 		Main runtimeCheck = new Main();
@@ -91,7 +97,7 @@ public class Main {
 		Text.clear();
 		// End cool intro
 
-		Text.pokePrint("Welcome to Pokemon arena \nHere you will fight with Pokemon!\n\nEnter to continue...");
+		Text.pokePrint("Welcome to Pokemon arena\nHere you will fight with Pokemon!\n\nEnter to continue...");
 		stdin.nextLine();
 		Text.clear();
 
@@ -139,7 +145,7 @@ public class Main {
 		Text.pokePrint("\nPress the enter key to battle...");
 		stdin.nextLine();
 
-		/*------------- Battle Setup -------------------*/
+		/*------------- Battle -------------------*/
 		while (!prof.areAllOut(user_poke) && !prof.areAllOut(prof.getPokedex())) {
 			Text.clear();
 			choice = null;
@@ -153,9 +159,31 @@ public class Main {
 			while (!choice.isOut() && !rocket.isOut()) {
 				Battle.execute(choice, rocket);
 			}
+			if (choice.isOut()) {
+				Text.pokePrint(choice.getName() + " has fainted!");
+			}
+			if (rocket.isOut()) {
+				Text.pokePrint(rocket.getName() + " has fainted!");
+			}
+			Text.sleep(3000);
 		}
 
-		/* ------------ Clean Up -----------------*/
+		/*------------ Declare Winner -----------------*/
+		if (prof.areAllOut(prof.getPokedex())) {
+			Text.clear();
+			Text.pokePrint("Congratulations, You are Trainer Supreme!");
+			Text.sleep(3000);
+			Text.pokePrint("Here is your FaNcY Badge\n");
+			GraphicsManager.drawASCII("badge");
+			stdin.nextLine();
+		}
+		else if (prof.areAllOut(user_poke)) {
+			Text.clear();
+			Text.pokePrint("Your Pokemon have been defeted and you are not Trainer Supreme");
+			stdin.nextLine();
+		}
+
+		/*------------ Clean Up ----------------*/
 		System.exit(0);
 	}
 

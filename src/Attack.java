@@ -18,19 +18,34 @@ public class Attack {
 
 	public void execute(Pokemon target, Pokemon self) {
 		/* Perform attack on target Pokemon */
-		String copmare = Special.toString(this.special);  // String of enum to compare
+		int realDamage = this.damage;  // Actual damage to set back after modifiers have taken place
 
-		// TODO: Change all the conditions from .equals to ==
+		// Modify damage based on types
+		if (target.getWeakness() == self.getType()) {
+			this.damage *= 2;
+		}
+		else if (target.getResistance() == self.getType()) {
+			this.damage /= 2;
+		}
+
 		if (this.special == Special.NONE) {
 			target.takeDamage(this.damage);
 		}
 
-		if (this.special == Special.STUN && this.atkRnd.nextInt(9) % 2 == 0) {  // 50% chance of STUN happening
-			target.stun();
+		if (this.special == Special.STUN) {
+			target.takeDamage(this.damage);
+			if (this.atkRnd.nextInt(2) == 0) {  // 50% chance of STUN happening
+				target.stun();
+				Text.pokePrint(target.getName() + " is stunned!");
+			}
+			else {
+				Text.pokePrint(target.getName() + " was not affected!");
+			}
 		}
 
 		if (this.special == Special.WILDCARD) {
-			if (this.atkRnd.nextInt(9) % 2 == 0) {
+			if (this.atkRnd.nextInt(2) == 0) {
+				Text.pokePrint(self.getName() + " is feeling lucky!");
 				target.takeDamage(this.damage);
 			}
 			else {
@@ -39,7 +54,8 @@ public class Attack {
 		}
 
 		if (this.special == Special.WILDSTORM) {
-			if (this.atkRnd.nextInt(9) % 2 == 0) {
+			if (this.atkRnd.nextInt(2) == 0) {
+				Text.pokePrint(self.getName() + " is going wild!");
 				target.takeDamage(this.damage);
 				this.execute(target, self);
 			}
@@ -49,15 +65,25 @@ public class Attack {
 		}
 
 		if (this.special == Special.DISABLE) {
-			target.disable();
+			target.takeDamage(this.damage);
+			if (!target.getDisabled()) {
+				Text.pokePrint(target.getName() + " was already disabled!");
+			}
+			else {
+				target.disable();
+				Text.pokePrint(target.getName() + " is now disabled!");
+			}
 		}
 
 		if (this.special == Special.RECHARGE) {
 			self.rechargeEnergy(20);
+			Text.pokePrint(self.getName() + " recharged energy!");
+			Text.sleep(3000);
 		}
 
 		// Use pokemon energy
 		self.rechargeEnergy(-this.cost);
+		this.damage = realDamage;
 	}
 
 	/*-------- set Methods --------*/
