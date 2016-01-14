@@ -1,4 +1,6 @@
+// Dilpreet Chana
 // Battle.java
+// Class Battle Handle battle interactions
 
 import java.util.*;
 import java.io.*;
@@ -19,6 +21,7 @@ public class Battle {
 
 	public static boolean turn = rnd.nextBoolean();
 
+	// Present selections for next action
 	public static void choose() {
 		while (Battle.choice == -1) {
 			Text.clear();
@@ -50,7 +53,7 @@ public class Battle {
 		// Player attack phase
 		while (Battle.turn == Battle.PLAYER && !player.isOut() && !enemy.isOut()) {
 			if (player.getStun()) {
-				Text.pokePrint(player.getName() + " is stunned!");
+				Text.pokePrint(player.getName() + " is stunned and cannot do anything!");
 				Text.sleep(3000);
 				Battle.turn = Battle.ENEMY;
 				Battle.playerAttacked = true;
@@ -60,12 +63,11 @@ public class Battle {
 			Battle.choose();
 			if (Battle.choice == 1) {
 				// Attack
-				int attackSuccess = -1;
+				int attackSuccess = -1;  // used to determine if attack was successful
 				while (attackSuccess == -1) {
 					Battle.atk_choice = -1;
+					Text.clear();
 					while (Battle.atk_choice == -1) {
-						Text.clear();
-
 						player.displayEssentials();
 						enemy.displayEssentials();
 
@@ -84,8 +86,11 @@ public class Battle {
 							Text.pokePrint("Invalid choice. Try again.");
 							Text.sleep(2000);
 						}
+						Text.clear();
 					}
 					Battle.atk_choice--;
+
+					// Back
 					if (Battle.atk_choice == -1) {
 						Battle.choice = -1;
 						break;
@@ -120,6 +125,7 @@ public class Battle {
 			}
 			Battle.choice = -1;
 		}
+		player.unstun();
 
 		// Enemy attack phase
 		if (Battle.turn == Battle.ENEMY && !player.isOut() && !enemy.isOut()) {
@@ -147,7 +153,9 @@ public class Battle {
 			Battle.turn = Battle.PLAYER;
 			Battle.enemyAttacked = true;
 		}
+		enemy.unstun;
 
+		// Reset Pokemon variables and recharge energy
 		if (Battle.playerAttacked && Battle.enemyAttacked) {
 			Main.resetTurns();
 			enemy.resetTurn();

@@ -1,4 +1,6 @@
+// Dilpreet Chana
 // GraphicsManager.java
+// Class GraphicsManager Used to "render" ASCII images
 
 import java.util.*;
 import java.io.*;

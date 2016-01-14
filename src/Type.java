@@ -1,4 +1,6 @@
+// Dilpreet Chana
 // Type.java
+// Enum Type Type for Pokemon types
 
 import java.io.*;
 import java.util.*;

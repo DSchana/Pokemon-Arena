@@ -1,3 +1,4 @@
+// Dilpreet Chana
 // Main.java
 
 import java.io.*;
@@ -9,7 +10,7 @@ public class Main {
 	static ProfOak prof = new ProfOak();
 
 	static ArrayList<Pokemon> user_poke = new ArrayList<Pokemon>();
-	static Pokemon choice;  // Holds user's pokemon choice while program determines if it is valid
+	static Pokemon choice;  // Holds user's Pokemon choice while program determines if it is valid
 	static Pokemon rocket;  // Bad guys pokemon (team rocket)
 
 	static String userIn;  // Hold all of the user's inputs for analysis
@@ -18,9 +19,9 @@ public class Main {
 
 	public static void chooseBattlePokemon() {
 		choice = null;
-		while (choice == null) {
+		while (choice == null) {  // Allow user to select battle Pokemon until a valid selection is made
 			Text.pokePrint("Choose your Pokemon (stat # for Pokemon statistics):\n");
-			showPokemon();
+			showPokemon();  // Display possible Pokemon
 
 			userIn = stdin.nextLine();
 			try {
@@ -179,7 +180,7 @@ public class Main {
 		}
 		else if (prof.areAllOut(user_poke)) {
 			Text.clear();
-			Text.pokePrint("Your Pokemon have been defeted and you are not Trainer Supreme");
+			Text.pokePrint("Your Pokemon have been defeated and you are not Trainer Supreme");
 			stdin.nextLine();
 		}
 
@@ -187,6 +188,7 @@ public class Main {
 		System.exit(0);
 	}
 
+	// ShutdownHook called when game ends either normally or prematurely
 	public void attachShutDownHook(){
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override

@@ -1,4 +1,6 @@
+// Dilpreet Chana
 // Pokemon.java
+// Class Pokemon Blueprint for a Pokemon
 
 import java.util.*;
 
@@ -81,7 +83,6 @@ public class Pokemon {
 
 	/*------- Set Methods -----------*/
 	public void resetTurn() {
-		this.isStunned = false;
 		this.rechargeEnergy(10);
 	}
 
@@ -114,6 +115,10 @@ public class Pokemon {
 			}
 			this.wasDisabled = true;
 		}
+	}
+
+	public void unstun() {
+		this.isStunned = false;
 	}
 
 	/*------- Get Methods -----------*/

@@ -1,4 +1,6 @@
+// Dilpreet Chana
 // Special.java
+// Enum Special Type for attack types
 
 import java.io.*;
 import java.util.*;

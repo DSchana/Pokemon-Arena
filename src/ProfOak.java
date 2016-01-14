@@ -1,4 +1,6 @@
+// Dilpreet Chana
 // ProfOak.java
+// Class ProfOak Holds "knowledge" of all the available Pokemon
 
 import java.util.*;
 import java.io.*;

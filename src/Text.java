@@ -1,4 +1,6 @@
+// Dilpreet Chana
 // Text.java
+// Class Text Modification of the cmd output
 
 import java.io.*;
 

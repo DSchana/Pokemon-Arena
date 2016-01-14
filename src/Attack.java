@@ -1,4 +1,7 @@
-// Attack.java
+/* Dilpreet Chana
+ * Attack.java
+ * Class Attack: Blueprint for n attack of the Pokemon
+ */
 
 import java.util.*;
 
@@ -16,6 +19,11 @@ public class Attack {
 		this.special = Special.toSpec(special);
 	}
 
+	/*
+	 * Deal attack damage while taking into account the the types
+	 * @param target Pokemon to take damage
+	 * @param self	 Pokemon dealing damage
+	 */
 	public void execute(Pokemon target, Pokemon self) {
 		/* Perform attack on target Pokemon */
 		int realDamage = this.damage;  // Actual damage to set back after modifiers have taken place
@@ -66,7 +74,7 @@ public class Attack {
 
 		if (this.special == Special.DISABLE) {
 			target.takeDamage(this.damage);
-			if (!target.getDisabled()) {
+			if (target.getDisabled()) {
 				Text.pokePrint(target.getName() + " was already disabled!");
 			}
 			else {
@@ -77,7 +85,7 @@ public class Attack {
 
 		if (this.special == Special.RECHARGE) {
 			self.rechargeEnergy(20);
-			Text.pokePrint(self.getName() + " recharged energy!");
+			Text.pokePrint(self.getName() + "'s energy recharged!");
 			Text.sleep(3000);
 		}
 
