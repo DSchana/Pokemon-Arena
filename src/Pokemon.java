@@ -2,6 +2,8 @@
 // Pokemon.java
 // Class Pokemon Blueprint for a Pokemon
 
+// Wowza
+
 import java.util.*;
 
 public class Pokemon {
